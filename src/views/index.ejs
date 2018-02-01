@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <title>oMyGAD</title>
+  </head>
+
+  <body>
+    <div class="container">
+        <div class="faccina text-center">
+          <span id="percentuale" class="text-right"><%=percentuale%></span>
+          <span id="miniDec"></span>
+          <span class="percentualeSimbolo"> % </span>
+          <span id="faccina" class="text-left"><%=status%></span>
+        </div>
+    </div>
+    <script src="jquery/dist/jquery.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+      getValue();
+      setInterval(function() {
+        getValue();
+      }, 1000*60*5);
+
+      function getValue() {
+        $.get("/load",function(res) {
+
+          var percStr = (parseFloat(Math.round(res.percentuale * 100000000) / 100000000).toFixed(8))+"";
+          var arr2Cf = percStr.substring(0,percStr.indexOf('.')+3);
+          var miniDec = percStr.substring(percStr.indexOf('.')+3,percStr.length);
+
+          $('#percentuale').text(arr2Cf);
+          $('#miniDec').text(miniDec);
+          $('#faccina').text(res.status);
+        });
+      }
+    </script>
+  </body>
+</html>
