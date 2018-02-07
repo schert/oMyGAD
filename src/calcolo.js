@@ -25,12 +25,12 @@ function getGuadagno(returnFunction) {
 
         percentuale = (guadagnoEUR/investimentoInit)*100;
 
-        logger.log('info', new Date()+"", {percentuale: percentuale, euro: guadagnoEUR});
+        logger.info(new Date()+"", {percentuale: percentuale, euro: guadagnoEUR});
 
         returnFunction({percentuale: percentuale, euro: guadagnoEUR});
       }
       else {
-        logger.log('error', CONSTANT.NO_DATA);
+        logger.error(CONSTANT.NO_DATA);
         returnFunction(null);
       }
     });
@@ -53,7 +53,7 @@ axios.get(CONSTANT.CMC_CONN_CONFIG.url)
     endFunction(coinsMap);
   })
   .catch(error => {
-    logger.log('error',CONSTANT.CMC_CONN_ERROR);
+    logger.error(CONSTANT.CMC_CONN_ERROR);
     endFunction(null);
   });
 };

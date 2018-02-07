@@ -37,5 +37,5 @@ app.get('/load', function (req, res) {
 
 var port = process.env.PORT || 1337
 app.listen(port, function() {
-  logger.log('info', 'ready on port ' + port);
+  logger.info('ready on port ' + port);
 });
