@@ -1,6 +1,6 @@
 var CONSTANT = require('./constant');
 const axios = require('axios');
-const console = require('winston')
+const logger = require('./logger');
 
 function getGuadagno(returnFunction) {
     getCoinMatchetCupValue(CONSTANT.COINS_VALUE,function(coins) {
@@ -25,12 +25,12 @@ function getGuadagno(returnFunction) {
 
         percentuale = (guadagnoEUR/investimentoInit)*100;
 
-        console.log('info', new Date()+"", {percentuale: percentuale, euro: guadagnoEUR});
+        logger.log('info', new Date()+"", {percentuale: percentuale, euro: guadagnoEUR});
 
         returnFunction({percentuale: percentuale, euro: guadagnoEUR});
       }
       else {
-        console.log('error', CONSTANT.NO_DATA);
+        logger.log('error', CONSTANT.NO_DATA);
         returnFunction(null);
       }
     });
@@ -53,7 +53,7 @@ axios.get(CONSTANT.CMC_CONN_CONFIG.url)
     endFunction(coinsMap);
   })
   .catch(error => {
-    console.log('error',CONSTANT.CMC_CONN_ERROR);
+    logger.log('error',CONSTANT.CMC_CONN_ERROR);
     endFunction(null);
   });
 };

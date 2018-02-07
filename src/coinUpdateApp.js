@@ -2,8 +2,7 @@ var express = require('express');
 var path = require('path');
 var Faccina = require('./bean/faccina');
 var api = require('./calcolo');
-const console = require('winston')
-console.level = process.env.LOG_LEVEL
+const logger = require('./logger');
 
 var app = express();
 
@@ -23,6 +22,10 @@ app.get('/', function (req, res) {
 
 
 app.get('/load', function (req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype');
+
   var retVal = api.getGuadagno(function(retVal) {
     res.json({
       percentuale : retVal!=null ? retVal.percentuale : " - ",
@@ -34,5 +37,5 @@ app.get('/load', function (req, res) {
 
 var port = process.env.PORT || 1337
 app.listen(port, function() {
-  console.log('info', 'ready on port ' + port);
+  logger.log('info', 'ready on port ' + port);
 });

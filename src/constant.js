@@ -1,7 +1,7 @@
 var xlsObj = require('./readFromExcel.js');
 
 var CMC_CONN_CONFIG = {
-  url : "https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=0",
+  url : "https://api.coinmarketcappp.com/v1/ticker/?convert=EUR&limit=0",
   port : 80,
   method: 'GET'
 };
