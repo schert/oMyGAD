@@ -5,9 +5,12 @@ var CMC_CONN_CONFIG = {
   port : 80,
   method: 'GET'
 };
-var CMC_CONN_ERROR = "Errore di connessione con Coin Market Cup!";
-var NO_DATA = "Nessun dato disponibile";
-module.exports.COINS_VALUE = xlsObj;
+
+var ERROR = {
+  CMC_CONN_ERROR : "Errore di connessione con Coin Market Cup!",
+  NO_DATA : "Nessun dato disponibile",
+};
+
 module.exports.CMC_CONN_CONFIG = CMC_CONN_CONFIG;
-module.exports.CMC_CONN_ERROR = CMC_CONN_ERROR;
-module.exports.NO_DATA = NO_DATA;
+module.exports.COINS_VALUE = xlsObj;
+module.exports.ERROR = ERROR;
