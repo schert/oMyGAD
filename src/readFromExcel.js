@@ -1,21 +1,30 @@
 var xlsx = require('node-xlsx');
-var idColumn = 0;
-var priceEurCol = 1;
-var priceUsdCol = 2;
-var qCol = 3;
-var foglio = 0;
-var start = 1;
 var objEx = xlsx.parse(__dirname + '/Portafoglio.xlsx');
+var CONSTANT = require('./constant');
 
 var obj = [];
-for(var i=start;i<objEx[foglio].data.length;i++) {
-  var row = objEx[foglio].data[i];
-  obj[row[idColumn]] = {
-    "id" : row[idColumn],
-    "price_usd": row[priceUsdCol],
-    "price_eur": row[priceEurCol],
-    "q" : row[qCol],
-  };
+var count = 0;
+
+for(var sheet = CONSTANT.EXCEL_VALUE.FOGLIO_START; sheet<=CONSTANT.EXCEL_VALUE.FOGLIO_END;sheet++) {
+  for(var i=CONSTANT.EXCEL_VALUE.START;i<objEx[CONSTANT.EXCEL_VALUE.FOGLIO_START].data.length;i++) {
+    var row = objEx[sheet].data[i];
+    var id = row[CONSTANT.EXCEL_VALUE.ID_COLUMN];
+    if(id == '' || id == undefined || id == null) {
+      continue;
+    }
+
+    if(obj[id]!= undefined) {
+      id += '_'+(count++);
+    }
+
+    obj[id] = {
+      "sheet" : sheet,
+      "id" : row[CONSTANT.EXCEL_VALUE.ID_COLUMN],
+      "price_usd": row[CONSTANT.EXCEL_VALUE.PRICE_USD_COLUMN],
+      "price_eur": row[CONSTANT.EXCEL_VALUE.PRICE_EUR_COLUMN],
+      "q" : row[CONSTANT.EXCEL_VALUE.Q_COLUMN],
+    };
+  }
 }
 
 module.exports = obj;

@@ -4,25 +4,33 @@ const logger = require('./logger');
 
 function getGuadagno(returnFunction) {
     getCoinMatchetCupValue(CONSTANT.COINS_VALUE,function(coins) {
-      var guadagnoEUR = 0;
+      var guadagno = 0;
       var investimentoInit = 0;
+      var investimentoAttuale = 0;
+      var guadagnoEUR = 0;
       var percentuale = 0;
 
       if(coins) {
         for (var key in CONSTANT.COINS_VALUE) {
-          if (coins.hasOwnProperty(key)) {
+          if (coins.hasOwnProperty(key.split('_')[0])) {
             var oldPrice = parseFloat(CONSTANT.COINS_VALUE[key].price_eur);
             var q = parseFloat(CONSTANT.COINS_VALUE[key].q);
-            var newPrice  = parseFloat(coins[key].price_eur);
+            var newPrice  = parseFloat(coins[key.split('_')[0]].price_eur);
             if(oldPrice == null || newPrice == null) {
               continue;
             }
 
-            guadagnoEUR +=  (newPrice - oldPrice)*q;
-            investimentoInit += oldPrice*q;
+            if(CONSTANT.COINS_VALUE[key].sheet == 1) {
+              investimentoAttuale +=  newPrice*q;
+            }
+
+            if(CONSTANT.COINS_VALUE[key].sheet == 0) {
+              investimentoInit += oldPrice*q;
+            }
           }
         }
 
+        guadagnoEUR = investimentoAttuale - investimentoInit;
         percentuale = (guadagnoEUR/investimentoInit)*100;
 
         logger.info(new Date()+"", {percentuale: percentuale, euro: guadagnoEUR});
@@ -53,7 +61,7 @@ axios.get(CONSTANT.CMC_CONN_CONFIG.url)
     endFunction(coinsMap);
   })
   .catch(error => {
-    logger.error(CONSTANT.ERROR.CMC_CONN_ERROR);
+    logger.error(CONSTANT.ERROR.CMC_CONN_ERROR + ' - ' + error);
     endFunction(null);
   });
 };
