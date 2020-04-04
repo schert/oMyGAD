@@ -61,21 +61,21 @@ function getCoinMatchetCupValue(coins,endFunction) {
         gzip: true
     };
 
-rp(requestOptions).then(response => {
-  var coinsResponse = response.data;
-    var coinsMap = [];
+    rp(requestOptions).then(response => {
+        var coinsResponse = response.data;
+        var coinsMap = [];
 
-    coinsResponse.forEach(function(item) {
-      if(coins[item.id] != undefined) {
-        coinsMap[item.id] = item;
-      }
+        coinsResponse.forEach(function(item) {
+            if(coins[item.id] != undefined) {
+                coinsMap[item.id] = item;
+            }
+        });
+
+        endFunction(coinsMap);
+    }).catch((err) => {
+        logger.error(CONSTANT.ERROR.CMC_CONN_ERROR + ' - ' + error);
+        endFunction(null);  
     });
-
-    endFunction(coinsMap);
-}).catch((err) => {
-  logger.error(CONSTANT.ERROR.CMC_CONN_ERROR + ' - ' + error);
-    endFunction(null);
-});
 
 /*axios.get(CONSTANT.CMC_CONN_CONFIG.url)
   .then(response => {
@@ -94,7 +94,7 @@ rp(requestOptions).then(response => {
   .catch(error => {
     logger.error(CONSTANT.ERROR.CMC_CONN_ERROR + ' - ' + error);
     endFunction(null);
-  });
-};*/
+  });*/
+};
 
 module.exports.getGuadagno = getGuadagno;
