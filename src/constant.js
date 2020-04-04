@@ -5,7 +5,7 @@ var CMC_CONN_CONFIG = {
 };
 
 var ERROR = {
-  CMC_CONN_ERROR : "Errore di connessione con Coin Market Cup!",
+  CMC_CONN_ERROR : "Errore di connessione con Coin Market Cup v2!",
   NO_DATA : "Nessun dato disponibile",
 };
 
