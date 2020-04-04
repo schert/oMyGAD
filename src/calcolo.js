@@ -45,8 +45,39 @@ function getGuadagno(returnFunction) {
 };
 
 function getCoinMatchetCupValue(coins,endFunction) {
+    
+    const rp = require('request-promise');
+    const requestOptions = {
+        method: 'GET',
+        uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+        qs: {
+          'limit': '0',
+           'convert': 'EUR'
+         },
+         headers: {
+           'X-CMC_PRO_API_KEY': 'd067b75c-87d1-493e-8235-a187fc104cf0'
+         },
+        json: true,
+        gzip: true
+    };
 
-axios.get(CONSTANT.CMC_CONN_CONFIG.url)
+rp(requestOptions).then(response => {
+  var coinsResponse = response.data;
+    var coinsMap = [];
+
+    coinsResponse.forEach(function(item) {
+      if(coins[item.id] != undefined) {
+        coinsMap[item.id] = item;
+      }
+    });
+
+    endFunction(coinsMap);
+}).catch((err) => {
+  logger.error(CONSTANT.ERROR.CMC_CONN_ERROR + ' - ' + error);
+    endFunction(null);
+});
+
+/*axios.get(CONSTANT.CMC_CONN_CONFIG.url)
   .then(response => {
 
     var coinsResponse = response.data;
@@ -64,6 +95,6 @@ axios.get(CONSTANT.CMC_CONN_CONFIG.url)
     logger.error(CONSTANT.ERROR.CMC_CONN_ERROR + ' - ' + error);
     endFunction(null);
   });
-};
+};*/
 
 module.exports.getGuadagno = getGuadagno;
